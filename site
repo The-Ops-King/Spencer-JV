@@ -1,0 +1,682 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Atlas x Execute: Expert Session</title>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   <style>
+/* CORE STYLES */
+* { box-sizing: border-box; }
+body {
+ background-color: #050505;
+ color: #fff;
+ font-family: 'Urbanist', sans-serif;
+ margin: 0;
+ padding: 40px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 40px;
+}
+
+
+/* SLIDE CONTAINER */
+.slide {
+ background-color: #0a0a0a;
+ border: 1px solid #222;
+ border-radius: 12px;
+ box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+ width: 100%;
+ max-width: 1280px;
+ min-height: 720px;
+ height: auto;
+ overflow: visible;
+ position: relative;
+ display: flex;
+ flex-direction: column;
+ padding: 60px;
+ margin-bottom: 40px;
+}
+
+
+/* TYPOGRAPHY */
+h1 { font-size: clamp(48px, 6vw, 80px); margin: 0; line-height: 0.95; font-weight: 800; letter-spacing: -2px; }
+h2 { font-size: clamp(36px, 4vw, 56px); margin: 0 0 30px 0; font-weight: 700; letter-spacing: -1px; }
+h3 { font-size: clamp(24px, 3vw, 32px); margin: 0 0 15px 0; color: #fff; }
+p, li { font-size: clamp(18px, 2vw, 24px); color: #a1a1aa; line-height: 1.5; font-weight: 300; }
+.accent { color: #2dd4bf; }
+.text-white { color: #fff; }
+.text-red { color: #ef4444; }
+.highlight-bg { background: rgba(45, 212, 191, 0.1); border-left: 4px solid #2dd4bf; padding: 20px; }
+
+
+/* UTILITIES */
+.center-content { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%; flex-grow: 1; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; height: 100%; align-items: center; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+
+/* CALCULATOR STYLES */
+.calculator-box { background: #111; border: 1px solid #333; padding: 30px; border-radius: 12px; width: 100%; }
+.calc-input-group { margin-bottom: 30px; text-align: left; }
+.calc-input-group label { display: block; color: #2dd4bf; font-size: 18px; margin-bottom: 10px; font-weight: 700; }
+.calc-input-group input { width: 100%; background: #000; border: 1px solid #444; color: #fff; padding: 15px; font-size: 24px; border-radius: 8px; font-family: 'Urbanist', sans-serif; }
+.calc-results { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+.calc-card { background: #0a0a0a; border: 1px solid #222; padding: 20px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 140px; }
+.calc-card h4 { color: #a1a1aa; margin: 0 0 10px 0; font-size: 16px; font-weight: 600; }
+.calc-card .val { color: #fff; font-size: 24px; font-weight: 700; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.calc-card .val-sub { color: #555; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.calc-highlight { border-color: #2dd4bf; background: rgba(45, 212, 191, 0.05); }
+.calc-highlight h4 { color: #2dd4bf; }
+
+
+/* ARCHETYPES */
+.archetype-card { background: #111; border: 1px solid #222; padding: 25px; border-radius: 8px; transition: transform 0.2s; }
+.archetype-card:hover { border-color: #2dd4bf; transform: translateY(-5px); }
+.archetype-icon { color: #2dd4bf; font-size: 32px; margin-bottom: 15px; }
+.archetype-card ul { padding-left: 20px; margin: 15px 0 0 0; text-align: left; }
+.archetype-card li { font-size: 16px; margin-bottom: 8px; color: #a1a1aa; }
+
+
+/* MEETINGS */
+.meeting-row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 30px 0; align-items: center; }
+.meeting-row:last-child { border-bottom: none; }
+
+
+/* VALUES */
+.values-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-top: 40px; }
+.value-col h3 { font-size: 32px; color: #fff; margin-bottom: 20px; border-bottom: 3px solid #2dd4bf; display: inline-block; padding-bottom: 5px; }
+.value-col p { font-size: 20px; color: #a1a1aa; line-height: 1.6; }
+
+
+/* VISUAL CHAOS TO ORDER */
+.chaos-container { position: relative; height: 400px; width: 100%; border: 1px dashed #333; border-radius: 12px; margin-top: 30px; overflow: hidden; }
+.chaos-item { position: absolute; font-size: 18px; color: #555; font-weight: 700; transform: rotate(var(--r)); }
+.order-container { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+.order-row { background: #111; padding: 20px; border-radius: 8px; border-left: 4px solid #2dd4bf; display: flex; justify-content: space-between; align-items: center; }
+
+
+/* INTEGRITY GRAPHIC */
+.integrity-stack { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 40px; position: relative; }
+.integrity-box { background: #111; border: 2px solid #333; padding: 20px 60px; border-radius: 50px; font-size: 24px; color: #a1a1aa; width: 300px; text-align: center; z-index: 2; }
+.integrity-line { width: 4px; height: 40px; background: #333; }
+.integrity-box.final { border-color: #2dd4bf; color: #fff; background: rgba(45, 212, 191, 0.1); box-shadow: 0 0 20px rgba(45, 212, 191, 0.2); }
+
+
+/* CTA BUTTON */
+.cta-button { background: #2dd4bf; color: #000; font-size: clamp(24px, 3vw, 32px); font-weight: 700; padding: 20px 60px; border-radius: 8px; text-decoration: none; margin-top: 40px; display: inline-block; text-align: center; }
+
+
+.slide-label { position: absolute; top: 30px; left: 30px; font-size: 14px; color: #444; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+   .slide { padding: 40px; }
+   .grid-2, .grid-3, .values-grid { grid-template-columns: 1fr; gap: 40px; }
+   .calc-results { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+
+<!-- SLIDE 1: INTRO -->
+<div class="slide slide-1">
+   <div class="slide-label">I. Introduction</div>
+   <div class="center-content">
+       <h1>A BETTER WAY TO<br>WORK WITH A <span class="accent">VA</span></h1>
+       <div class="subtitle" style="font-size: 24px; color: #2dd4bf; margin-top: 20px; text-transform: uppercase; letter-spacing: 4px;">The "Nightmare Founder" Detox</div>
+       <p style="margin-top: 40px; max-width: 800px;">Stop being the bottleneck. Start being the leader your Atlas VA was trained to serve.</p>
+   </div>
+</div>
+
+
+<!-- SLIDE 2: CONTEXT / CALCULATOR -->
+<div class="slide">
+   <div class="slide-label">I. Context</div>
+   <div class="grid-2">
+       <div>
+           <h2>Time = Money.</h2>
+           <p>You didn't hire an Atlas VA to save $15/hour. You hired them to buy back your life.</p>
+           <p class="accent" style="margin-top: 20px;">What is your "Nightmare Tax"?</p>
+       </div>
+       <div class="calculator-box">
+           <div class="calc-input-group">
+               <label for="hourlyRate">Your Hourly Consulting Rate ($)</label>
+               <input type="number" id="hourlyRate" placeholder="e.g. 500" value="500" oninput="calculateSavings()">
+           </div>
+          
+           <div class="calc-results">
+               <div class="calc-card">
+                   <h4>Save 3 Hrs/Wk</h4>
+                   <div class="val" id="m3">$6,500/mo</div>
+                   <div class="val-sub" id="y3">$78,000/yr</div>
+               </div>
+               <div class="calc-card">
+                   <h4>Save 5 Hrs/Wk</h4>
+                   <div class="val" id="m5">$10,833/mo</div>
+                   <div class="val-sub" id="y5">$130,000/yr</div>
+               </div>
+               <div class="calc-card calc-highlight">
+                   <h4>Save 10 Hrs/Wk</h4>
+                   <div class="val" id="m10">$21,666/mo</div>
+                   <div class="val-sub" id="y10">$260,000/yr</div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 3: HARD TRUTH 1 -->
+<div class="slide">
+   <div class="slide-label">II. The Hard Truth</div>
+   <div class="center-content">
+       <h2 style="font-size: 80px; margin-bottom: 40px; line-height: 1;">It's Not Them.<br><span class="accent">It's You.</span></h2>
+       <p style="font-size: 32px; font-style: italic; color: #a1a1aa; margin-top: 40px;">"Your VA is too polite to tell you the truth..."</p>
+       <p style="font-size: 32px; font-weight: 700; color: #fff; margin-top: 20px;">But I'm not.</p>
+   </div>
+</div>
+
+
+<!-- SLIDE 4: HARD TRUTH 2 -->
+<div class="slide">
+   <div class="slide-label">II. The Hard Truth (Continued)</div>
+   <div class="center-content">
+       <h1 style="font-size: 100px; text-transform: uppercase;">You are a<br><span class="text-red">NIGHTMARE</span><br>to work with.</h1>
+   </div>
+</div>
+
+
+<!-- SLIDE 5: ARCHETYPES -->
+<div class="slide">
+   <div class="slide-label">II. Symptoms</div>
+   <h2>What Type of Monster Are You?</h2>
+   <div class="grid-3" style="margin-top: 20px;">
+       <div class="archetype-card">
+           <div class="archetype-icon"><i class="fa-solid fa-baby-carriage"></i></div>
+           <h3>The Toddler</h3>
+           <ul>
+               <li style="color: #fff; font-weight: 600;">"Tell me when to wake up, where to be, and what to do."</li>
+               <li>"Where did I put that file?" (For the 10th time)</li>
+               <li>Refuses to take ownership of their own calendar.</li>
+           </ul>
+       </div>
+       <div class="archetype-card">
+           <div class="archetype-icon"><i class="fa-solid fa-ghost"></i></div>
+           <h3>The Ghost</h3>
+           <ul>
+               <li>"Going deep work" -> Offline for 3 days.</li>
+               <li>Leaves VA on 'Read' for 48 hours.</li>
+               <li>Returns expecting everything done perfectly.</li>
+           </ul>
+       </div>
+       <div class="archetype-card">
+           <div class="archetype-icon"><i class="fa-solid fa-fire"></i></div>
+           <h3>The Arsonist</h3>
+           <ul>
+               <li>Slacks at 6:00 PM Friday: "URGENT."</li>
+               <li>Changes the entire Q4 plan on a Tuesday.</li>
+               <li>Gets bored if nothing is breaking.</li>
+           </ul>
+       </div>
+       <div class="archetype-card">
+           <div class="archetype-icon"><i class="fa-solid fa-arrows-spin"></i></div>
+           <h3>The Pinball</h3>
+           <ul>
+               <li>Listens to one podcast -> New Business Model.</li>
+               <li>Sends 14 voice notes in 3 minutes on 4 topics.</li>
+               <li>"Forget what I said yesterday."</li>
+           </ul>
+       </div>
+       <div class="archetype-card">
+           <div class="archetype-icon"><i class="fa-solid fa-user-secret"></i></div>
+           <h3>The Cryptographer</h3>
+           <ul>
+               <li>Forwards email with just: "Thoughts?"</li>
+               <li>"Handle it." (Handle what??)</li>
+               <li>Gets mad when you can't read their mind.</li>
+           </ul>
+       </div>
+       <div class="archetype-card">
+           <div class="archetype-icon"><i class="fa-solid fa-guitar"></i></div>
+           <h3>Bad Bandmate</h3>
+           <ul>
+               <li>Shows up 8 mins late to their own 1:1.</li>
+               <li>"Sorry, I wasn't listening, say again?"</li>
+               <li style="color: #fff; font-weight: 600;">Improvising solo while the rest of the company is following the SOPs.</li>
+           </ul>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 6: THE COMMITMENT (PRICE OF FREEDOM) -->
+<div class="slide">
+   <div class="slide-label">III. The Solution</div>
+   <div class="center-content">
+       <h2 style="margin-bottom: 40px;">The Price of Freedom</h2>
+       <div style="background: rgba(45, 212, 191, 0.05); border: 2px solid #2dd4bf; padding: 60px; border-radius: 20px; max-width: 900px;">
+           <h1 class="accent" style="font-size: 100px; line-height: 1; margin-bottom: 30px;">3 Hours.</h1>
+           <p style="font-size: 32px; color: #fff;">That is all it takes.</p>
+           <p style="margin-top: 30px;">If you can commit to 3 hours a week, consistently, I promise I can move you closer to paying <strong class="text-white">$0 Nightmare Tax</strong>.</p>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 7: THE CONFRONTATION (TOO BUSY) -->
+<div class="slide">
+   <div class="slide-label">III. The Solution</div>
+   <div class="center-content">
+       <div style="text-align: center; margin-bottom: 40px;">
+           <h2>"But I'm too busy..."</h2>
+           <p>The reality is, you are probably already doing 2 of those hours—just poorly.</p>
+           <p>If you're still "too busy" to spend 3 hours a week to gain the freedom you started this business for...</p>
+           <p class="text-white" style="font-size: 28px; margin-top: 20px;">Then you need this more than anybody.</p>
+       </div>
+      
+       <div style="background: #111; padding: 40px; border-radius: 12px; border-left: 4px solid #ef4444; max-width: 800px; width: 100%; text-align: center;">
+           <h3 class="text-white" style="margin-bottom: 20px;">The $5,000 Guarantee</h3>
+           <p style="font-size: 22px;">If you are genuinely too busy, I want to invite you to join the Execute Community for the next 3 months, completely free.</p>
+           <p style="font-size: 16px; color: #a1a1aa; margin-top: 20px;">(Typically a $5,000 Value)</p>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 8: THE APPLICATION -->
+<div class="slide">
+   <div class="slide-label">III. The Application</div>
+   <div class="center-content">
+       <h2 style="margin-bottom: 40px;">Here is how to apply:</h2>
+       <div class="grid-3" style="width: 100%;">
+           <div style="background: #111; padding: 30px; border-radius: 12px;">
+               <i class="fa-solid fa-mobile-screen text-red" style="font-size: 60px; margin-bottom: 20px;"></i>
+               <p>Show me your <strong>Screen Time</strong> usage.</p>
+           </div>
+           <div style="background: #111; padding: 30px; border-radius: 12px;">
+               <i class="fa-brands fa-chrome text-red" style="font-size: 60px; margin-bottom: 20px;"></i>
+               <p>Show me your <strong>Browser History</strong>.</p>
+           </div>
+           <div style="background: #111; padding: 30px; border-radius: 12px;">
+               <i class="fa-regular fa-calendar-xmark text-red" style="font-size: 60px; margin-bottom: 20px;"></i>
+               <p>Show me your <strong>Calendar</strong>.</p>
+           </div>
+       </div>
+       <p class="accent" style="margin-top: 40px; font-weight: 700; font-size: 28px;">We will find those 3 hours in the first 30 seconds,<br>or the $5,000 membership is yours free today.</p>
+   </div>
+</div>
+
+
+<!-- SLIDE 9: STEP 1.1 - DIGITAL COCKPIT -->
+<div class="slide">
+   <div class="slide-label">III. Step 1 (Interface)</div>
+   <div class="grid-2">
+       <div>
+           <h2>The Digital Cockpit</h2>
+           <p style="margin-bottom: 20px;">Use technology as an <strong>extension of your consciousness</strong>.</p>
+           <p>You don't need to clean up your messy Google Drive. You need to clean up the <strong>Access Point</strong>.</p>
+           <div style="margin-top: 30px; border-left: 3px solid #2dd4bf; padding-left: 20px;">
+               <p class="text-white" style="font-style: italic;">"If your VA can sign into your profile and fly the plane as easily as you can... imagine how slick YOU will be working on it."</p>
+           </div>
+       </div>
+       <div style="background: #111; padding: 40px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center;">
+           <ul style="list-style: none; padding: 0;">
+               <li style="margin-bottom: 20px; font-size: 24px; color: #fff;"><i class="fa-brands fa-chrome accent" style="margin-right: 15px;"></i> <strong>One Chrome Profile</strong></li>
+               <li style="margin-bottom: 20px; font-size: 24px; color: #fff;"><i class="fa-solid fa-bookmark accent" style="margin-right: 15px;"></i> <strong>Standardized Bookmarks</strong></li>
+               <li style="margin-bottom: 20px; font-size: 24px; color: #fff;"><i class="fa-solid fa-key accent" style="margin-right: 15px;"></i> <strong>Password Manager (LoggedIn)</strong></li>
+               <li style="margin-bottom: 20px; font-size: 24px; color: #fff;"><i class="fa-regular fa-file-lines accent" style="margin-right: 15px;"></i> <strong>Master Doc (Random Thoughts)</strong></li>
+           </ul>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 10: STEP 1.2 - BRAIN DUMP (INTRO) -->
+<div class="slide">
+   <div class="slide-label">III. Step 1 (Truth)</div>
+   <div class="center-content">
+       <h2>The Brain Dump</h2>
+       <p style="max-width: 800px; margin-bottom: 40px;">Get every great idea, every project, every fear, and every pesky task out of your head.</p>
+       <div class="grid-3" style="width: 100%;">
+           <div style="text-align: left; background: #111; padding: 25px; border-radius: 12px; border: 1px solid #333;">
+               <h3 class="accent" style="font-size: 24px; margin-bottom: 15px;">1. The Inventory</h3>
+               <ul style="padding-left: 20px; font-size: 18px; color: #a1a1aa;">
+                   <li>Hopes & Dreams</li>
+                   <li>Fears & Anxieties</li>
+                   <li>"Pesky Personal Tasks"</li>
+                   <li>Future Projects</li>
+               </ul>
+           </div>
+           <div style="text-align: left; background: #111; padding: 25px; border-radius: 12px; border: 1px solid #333; border-top: 4px solid #2dd4bf;">
+               <h3 class="accent" style="font-size: 24px; margin-bottom: 15px;">2. The Reality</h3>
+               <ul style="padding-left: 20px; font-size: 18px; color: #fff;">
+                   <li style="margin-bottom: 10px;"><strong>Duration:</strong> How long will it actually take?</li>
+                   <li style="margin-bottom: 10px;"><strong>Deadline:</strong> By when must it be done?</li>
+                   <li>Without these, it's just a wish list.</li>
+               </ul>
+           </div>
+           <div style="text-align: left; background: #111; padding: 25px; border-radius: 12px; border: 1px solid #333;">
+               <h3 class="accent" style="font-size: 24px; margin-bottom: 15px;">3. The Access</h3>
+               <ul style="padding-left: 20px; font-size: 18px; color: #a1a1aa;">
+                   <li>Centralized Location</li>
+                   <li>Accessible in 1-Click</li>
+                   <li>Visible to the Team</li>
+               </ul>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 11: STEP 1.3 - CALENDAR -->
+<div class="slide">
+   <div class="slide-label">III. Step 1 (Attention)</div>
+   <div class="grid-2">
+       <div>
+           <h2>The Calendar</h2>
+           <p>This is the blueprint of the most powerful weapon you own: <strong>Your Attention.</strong></p>
+           <p style="margin-top: 30px;">We use the calendar as an <strong>Attention Ledger.</strong> Just as you manage your money, you must manage your time with the same level of scrutiny.</p>
+       </div>
+       <div style="background: #111; padding: 40px; border-radius: 12px; text-align: center;">
+           <i class="fa-regular fa-eye accent" style="font-size: 80px; margin-bottom: 20px;"></i>
+           <h3 class="text-white">See The Future</h3>
+           <p>When you put intentions over time, your EA can anticipate your needs and solve problems <strong class="text-white">before they even exist.</strong></p>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 12: MEETING SYSTEM INTRO -->
+<div class="slide">
+   <div class="slide-label">III. Step 2 (Meetings)</div>
+   <div class="center-content">
+       <h2>The 3-Meeting System</h2>
+       <p style="max-width: 800px; margin-bottom: 40px;">Stop "chatting" throughout the day. Stop the Slack ping-pong.</p>
+       <div class="grid-3" style="width: 100%;">
+           <div style="background: #111; padding: 30px; border-radius: 12px;">
+               <h3 class="accent">1. With Yourself</h3>
+               <p><strong>Action Planning</strong></p>
+               <p style="font-size: 18px; margin-top: 10px;">Accountability to the Self. Identity Evaluation.</p>
+           </div>
+           <div style="background: #111; padding: 30px; border-radius: 12px;">
+               <h3 class="accent">2. With Your VA</h3>
+               <p><strong>Executive Sync</strong></p>
+               <p style="font-size: 18px; margin-top: 10px;">Clearing the runway. Anticipating Needs.</p>
+           </div>
+           <div style="background: #111; padding: 30px; border-radius: 12px;">
+               <h3 class="accent">3. With Your Team</h3>
+               <p><strong>Leadership Sync</strong></p>
+               <p style="font-size: 18px; margin-top: 10px;">Metrics, Issues, and Commitments.</p>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 13: MEETING 1 (SELF) -->
+<div class="slide">
+   <div class="slide-label">Meeting 1</div>
+   <div class="grid-2">
+       <div>
+           <h2 class="accent">Action Planning</h2>
+           <p class="text-white" style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Time: 1 Hour (Weekly)</p>
+           <p>This is the core of the entire philosophy.</p>
+           <ul style="margin-top: 30px; list-style: none; padding: 0;">
+               <li style="margin-bottom: 20px;"><i class="fa-solid fa-check accent" style="margin-right: 15px;"></i> <strong>Self-Accountability:</strong> The one hour where you answer to yourself.</li>
+               <li style="margin-bottom: 20px;"><i class="fa-solid fa-check accent" style="margin-right: 15px;"></i> <strong>Identity Level:</strong> "Who was I last week? Who do I need to be this week?"</li>
+               <li style="margin-bottom: 20px;"><i class="fa-solid fa-check accent" style="margin-right: 15px;"></i> <strong>The Truth:</strong> Did I lie to myself about my time? Why?</li>
+           </ul>
+       </div>
+       <div class="center-content">
+           <i class="fa-solid fa-fingerprint" style="font-size: 150px; color: #fff;"></i>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 14: IDENTITY SHIFT (TRIANGLE) -->
+<div class="slide">
+   <div class="slide-label">Meeting 1 (Continued)</div>
+   <div class="center-content">
+       <h2 class="accent">Action Planning</h2>
+       <div style="max-width: 900px; margin-top: 30px;">
+           <h1 style="font-size: 64px; line-height: 1.1; margin-bottom: 40px;">Execution is not a <span style="opacity: 0.5;">Behavior Shift.</span><br>It is an <span class="accent">Identity Shift.</span></h1>
+          
+           <div style="text-align: left; background: #111; padding: 40px; border-radius: 12px; border-left: 4px solid #2dd4bf;">
+               <p style="font-size: 28px; color: #fff; margin-bottom: 20px;">"Who does this week require me to be?"</p>
+               <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; text-align: center;">
+                   <div>
+                       <i class="fa-solid fa-hands-praying accent" style="font-size: 40px; margin-bottom: 10px;"></i>
+                       <p style="font-weight: 700; color: #fff;">The Monk</p>
+                       <p style="font-size: 16px;">Reflection / Deep Work</p>
+                   </div>
+                   <div>
+                       <i class="fa-solid fa-dragon text-red" style="font-size: 40px; margin-bottom: 10px;"></i>
+                       <p style="font-weight: 700; color: #fff;">The Animal</p>
+                       <p style="font-size: 16px;">Execution / Force</p>
+                   </div>
+                   <div>
+                       <i class="fa-solid fa-chess-knight text-white" style="font-size: 40px; margin-bottom: 10px;"></i>
+                       <p style="font-weight: 700; color: #fff;">The Architect</p>
+                       <p style="font-size: 16px;">Strategy / Structure</p>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 15: MEETING 2 (VA) -->
+<div class="slide">
+   <div class="slide-label">Meeting 2</div>
+   <div class="grid-2">
+       <div>
+           <h2 class="accent">Executive Sync</h2>
+           <p class="text-white" style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Time: 1 Hour (Weekly)</p>
+           <p>The "Transfer of Consciousness."</p>
+           <ul style="margin-top: 30px; list-style: none; padding: 0;">
+               <li style="margin-bottom: 20px;"><i class="fa-solid fa-check accent" style="margin-right: 15px;"></i> <strong>Show, Don't Tell:</strong> Verify assets visually. Trust but verify.</li>
+               <li style="margin-bottom: 20px;"><i class="fa-solid fa-check accent" style="margin-right: 15px;"></i> <strong>Context Transfer:</strong> Give them the "Why" so they can execute the "How."</li>
+               <li style="margin-bottom: 20px;"><i class="fa-solid fa-check accent" style="margin-right: 15px;"></i> <strong>Unblock:</strong> Provide the passwords, decisions, and approvals immediately.</li>
+           </ul>
+       </div>
+       <div class="center-content">
+           <i class="fa-solid fa-handshake" style="font-size: 150px; color: #fff;"></i>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 16: MEETING 3 (TEAM) -->
+<div class="slide">
+   <div class="slide-label">Meeting 3</div>
+   <div class="grid-2">
+       <div>
+           <h2 class="accent">Leadership Sync</h2>
+           <p class="text-white" style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Standardized Protocol</p>
+           <p>How to actually run a meeting:</p>
+           <ol style="margin-top: 30px; padding-left: 20px; font-size: 24px; color: #a1a1aa;">
+               <li style="margin-bottom: 15px;"><strong>Good News / Connection:</strong> Start human.</li>
+               <li style="margin-bottom: 15px;"><strong>Metrics Review:</strong> Just the numbers. No stories.</li>
+               <li style="margin-bottom: 15px;"><strong>Project Updates:</strong> Red/Yellow/Green status.</li>
+               <li style="margin-bottom: 15px;"><strong>Issues / Blockers:</strong> Solve the biggest problem.</li>
+               <li style="margin-bottom: 15px;"><strong>Commitments:</strong> Who does what by when?</li>
+           </ol>
+       </div>
+       <div class="center-content">
+           <i class="fa-solid fa-users-viewfinder" style="font-size: 150px; color: #fff;"></i>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 17: MISSING PIECE -->
+<div class="slide">
+   <div class="slide-label">IV. The Result</div>
+   <div class="center-content">
+       <h1 style="font-size: 80px; margin-bottom: 20px;">You Don't Need More Tech.</h1>
+       <div style="text-align: left; max-width: 900px; width: 100%; margin-top: 40px;">
+           <p style="margin-bottom: 20px; font-size: 28px; display: flex; align-items: center;"><i class="fa-solid fa-xmark text-red" style="margin-right: 20px; flex-shrink: 0;"></i> You don't need the next AI tool.</p>
+           <p style="margin-bottom: 20px; font-size: 28px; display: flex; align-items: center;"><i class="fa-solid fa-xmark text-red" style="margin-right: 20px; flex-shrink: 0;"></i> You don't need the hottest new strategy.</p>
+           <div style="background: rgba(239, 68, 68, 0.15); padding: 40px; border-left: 8px solid #ef4444; border-radius: 4px; margin-top: 40px;">
+               <p style="font-size: 32px; font-weight: 700; color: #fff; line-height: 1.3;">
+                   The greatest loss of revenue and potential comes from one thing:
+               </p>
+               <p style="font-size: 32px; font-weight: 400; color: #fff; margin-top: 20px;">
+                   The lack of a <span class="text-red">Culture of Execution</span> across your entire organization.
+               </p>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 18: CULTURE (COMMUNITY) -->
+<div class="slide">
+   <div class="slide-label">V. Culture</div>
+   <div class="center-content">
+       <h2 style="font-size: 48px; margin-bottom: 10px;">The Execute Culture</h2>
+       <p style="margin-bottom: 40px;">This is the standard we hold our community to.</p>
+       <div class="values-grid">
+           <div class="value-col">
+               <h3>Integrity</h3>
+               <p>Do you do what you say you will do? Can you prove it? If you can't trust your own word, why should your team?</p>
+           </div>
+           <div class="value-col">
+               <h3>Intent</h3>
+               <p>Activity is not achievement. Are you busy, or are you moving? We strip away the "shoulds" to find the signal in the noise.</p>
+           </div>
+           <div class="value-col">
+               <h3>Impact</h3>
+               <p>The result of the first two. When you remove the friction of dishonesty and vague intentions, you become a force of nature.</p>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 19: THE CURE? -->
+<div class="slide">
+   <div class="slide-label">V. The Cure</div>
+   <div class="center-content">
+       <div style="max-width: 1000px;">
+           <h2 style="font-size: 60px; line-height: 1.2;">Do you believe that these values and this ecosystem, when run by everyone on your team, is a cure for managing the chaos in your business?</h2>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 20: THE MANTRA -->
+<div class="slide">
+   <div class="slide-label">V. The Mantra</div>
+   <div class="center-content">
+       <p style="font-size: 28px; margin-bottom: 20px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 2px;">Say this out loud...</p>
+       <h1 style="font-size: 90px; color: #fff; text-align: center; line-height: 1.1;">"I lead my team by taking my own medicine."</h1>
+   </div>
+</div>
+
+
+<!-- SLIDE 21: THE CHALLENGE -->
+<div class="slide">
+   <div class="slide-label">V. The Challenge</div>
+   <div class="center-content">
+       <h2 style="font-size: 64px; line-height: 1.2;">What opportunities do you have in the next 7 days to demonstrate this statement to be true?</h2>
+   </div>
+</div>
+
+
+<!-- SLIDE 22: ONE SYSTEM (RECAP) -->
+<div class="slide">
+   <div class="slide-label">VI. Summary</div>
+   <div class="center-content">
+       <h2>Simplicity + Transparency = Scale</h2>
+       <div class="grid-3" style="width: 100%; margin-top: 40px;">
+           <div class="center-content">
+               <i class="fa-solid fa-file-lines accent" style="font-size: 60px; margin-bottom: 20px;"></i>
+               <h3>One Document</h3>
+               <p>Your thoughts and intentions</p>
+           </div>
+           <div class="center-content">
+               <i class="fa-solid fa-list-check accent" style="font-size: 60px; margin-bottom: 20px;"></i>
+               <h3>One Task List</h3>
+               <p>Your commitments</p>
+           </div>
+           <div class="center-content">
+               <i class="fa-regular fa-calendar accent" style="font-size: 60px; margin-bottom: 20px;"></i>
+               <h3>One Calendar</h3>
+               <p>Your actions</p>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 23: INTEGRITY (NEW) -->
+<div class="slide">
+   <div class="slide-label">VI. The Core</div>
+   <div class="center-content">
+       <h1 style="font-size: 100px; margin-bottom: 20px;">INTEGRITY</h1>
+       <p style="font-size: 32px; color: #a1a1aa; margin-bottom: 60px;">The primary KPI for being a human.</p>
+      
+       <div class="integrity-stack">
+           <div class="integrity-box">Intentions</div>
+           <div class="integrity-line"></div>
+           <div class="integrity-box">Commitments</div>
+           <div class="integrity-line"></div>
+           <div class="integrity-box final">Actions</div>
+       </div>
+   </div>
+</div>
+
+
+<!-- SLIDE 24: CTA -->
+<div class="slide">
+   <div class="slide-label">VII. Next Steps</div>
+   <div class="center-content">
+       <h2 style="font-size: 64px; line-height: 1.1;">Ready to stop being<br>a nightmare?</h2>
+       <p style="margin-bottom: 40px; font-size: 28px; margin-top: 20px;">Let's build your operating system.</p>
+      
+       <div style="background: #111; padding: 50px; border-radius: 12px; border: 1px solid #333; width: 100%; max-width: 600px; box-shadow: 0 0 40px rgba(45, 212, 191, 0.1);">
+           <a href="#" class="cta-button" style="margin-top: 0; width: 100%;">Book a Strategy Call</a>
+           <p style="font-size: 16px; margin-top: 20px; color: #555;">(Strictly for Founders who are ready to do the work)</p>
+       </div>
+   </div>
+</div>
+
+
+<script>
+   function calculateSavings() {
+       const rate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+      
+       const hours = [3, 5, 10];
+       hours.forEach(h => {
+           const weekly = rate * h;
+           const yearly = weekly * 52;
+           const monthly = yearly / 12;
+          
+           document.getElementById(`m${h}`).innerText = formatMoney(monthly) + '/mo';
+           document.getElementById(`y${h}`).innerText = formatMoney(yearly) + '/yr';
+       });
+   }
+
+
+   function formatMoney(amount) {
+       return '$' + amount.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+   }
+  
+   // Initial Calc
+   calculateSavings();
+</script>
+
+
+</body>
+</html>
+
